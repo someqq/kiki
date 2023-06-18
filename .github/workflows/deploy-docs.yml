@@ -33,6 +33,13 @@ jobs:
           yarn run docs:build
           > src/.vuepress/dist/.nojekyll
 
+      - name: Configure Git
+        run: |
+          git config --global user.name "gyq"
+          git config --global user.email "470984585@qq.com"
+          git config credential.helper store
+          git remote add origin https://github.com/someqq/kiki.git
+
       - name: 部署文档
         uses: JamesIves/github-pages-deploy-action@v4
         with:
