@@ -26,13 +26,11 @@ jobs:
       - name: 构建文档
         env:
           NODE_OPTIONS: --max_old_space_size=8192
-        run: |
-          yarn run docs:build
-          mv docs/dist/* .
+        run: yarn run docs:build
 
       - name: 部署文档
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: .
+          publish_dir: src/.vuepress/dist
