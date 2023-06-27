@@ -1,23 +1,35 @@
 import { defineUserConfig } from "vuepress";
 import theme from "./theme.js";
-
+import { searchPlugin } from "@vuepress/plugin-search";
 export default defineUserConfig({
+  theme,
   base: "/kiki/",
 
   locales: {
-    "/": {
+    "/en/": {
       lang: "en-US",
       title: "Blog Demo",
       description: "A blog demo for vuepress-theme-hope",
     },
-    "/zh/": {
+    "/": {
       lang: "zh-CN",
-      title: "博客演示",
-      description: "vuepress-theme-hope 的博客演示",
+      title: "Blog",
+      description: "kiki的博客",
     },
   },
+  plugins: [
+    searchPlugin({
+      locales: {
+        "/": {
+          placeholder: "搜索",
+        },
+        "/en/": {
+          placeholder: "search",
+        },
+      }
+    }),
+  ],
 
-  theme,
 
   // Enable it with pwa
   // shouldPrefetch: false,

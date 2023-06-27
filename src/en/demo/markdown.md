@@ -192,7 +192,7 @@ Support setting color scheme and size
 ```card
 title: Mr.Hope
 desc: Where there is light, there is hope
-logo: https://mrhope.site/logo.gif
+logo: https://mrhope.site/logo.png
 link: https://mrhope.site
 color: rgba(253, 230, 138, 0.15)
 ```
