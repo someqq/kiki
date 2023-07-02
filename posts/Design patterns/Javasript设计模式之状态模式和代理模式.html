@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.63" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta property="og:url" content="https://mister-hope.github.io/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html"><meta property="og:site_name" content="Kiki"><meta property="og:title" content="状态模式和代理模式"><meta property="og:description" content="状态模式和代理模式 由许多杯好喝的生椰拿铁想到的。 马上就要进入夏天啦！要说夏天必备的饮料，冰凉的椰汁绝对算是其中一个。关于**夏天最好的期待，我脑海中时常会浮现出大海、沙滩、遮阳伞、一大颗椰子。特别喜欢椰汁的清爽和椰肉的甜香，**所以出去也会喜欢买椰子水；在一些海南餐厅或者泰式餐厅，椰奶冻，也是受大家所欢迎的。喜欢创新的咖啡人当然不会错过椰子这个绝佳的食材，这两年椰味咖啡饮料也上了不少咖啡馆的菜单。所以好喝的生椰拿铁火了起来，对了厚乳拿铁也很好喝哇。那么突然间就感觉咖啡机好厉害哇，除了可以制作生椰拿铁，还可以制作厚乳拿铁，香草拿铁等等，一台小小的咖啡机就能制作出不同口味的咖啡。其实咖啡机切换不同的状态制作出不同咖啡的过程其实就像是本文要讲的“状态模式”的过程。"><meta property="og:type" content="article"><meta property="og:locale" content="zh-CN"><meta property="og:updated_time" content="2023-07-02T01:14:42.000Z"><meta property="article:author" content="Miss.Kiki"><meta property="article:tag" content="技术分享"><meta property="article:published_time" content="2022-03-09T00:00:00.000Z"><meta property="article:modified_time" content="2023-07-02T01:14:42.000Z"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"状态模式和代理模式","image":[""],"datePublished":"2022-03-09T00:00:00.000Z","dateModified":"2023-07-02T01:14:42.000Z","author":[{"@type":"Person","name":"Miss.Kiki","url":"https://someqq.github.io/kiki/"}]}</script><title>状态模式和代理模式 | Kiki</title><meta name="description" content="状态模式和代理模式 由许多杯好喝的生椰拿铁想到的。 马上就要进入夏天啦！要说夏天必备的饮料，冰凉的椰汁绝对算是其中一个。关于**夏天最好的期待，我脑海中时常会浮现出大海、沙滩、遮阳伞、一大颗椰子。特别喜欢椰汁的清爽和椰肉的甜香，**所以出去也会喜欢买椰子水；在一些海南餐厅或者泰式餐厅，椰奶冻，也是受大家所欢迎的。喜欢创新的咖啡人当然不会错过椰子这个绝佳的食材，这两年椰味咖啡饮料也上了不少咖啡馆的菜单。所以好喝的生椰拿铁火了起来，对了厚乳拿铁也很好喝哇。那么突然间就感觉咖啡机好厉害哇，除了可以制作生椰拿铁，还可以制作厚乳拿铁，香草拿铁等等，一台小小的咖啡机就能制作出不同口味的咖啡。其实咖啡机切换不同的状态制作出不同咖啡的过程其实就像是本文要讲的“状态模式”的过程。">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d1e1f;
+      }
+
+      html,
+      body {
+        background: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="preload" href="/kiki/assets/style-2d03d52b.css" as="style"><link rel="stylesheet" href="/kiki/assets/style-2d03d52b.css">
+    <link rel="modulepreload" href="/kiki/assets/app-2d139388.js"><link rel="modulepreload" href="/kiki/assets/Javasript设计模式之状态模式和代理模式.html-6744e34e.js"><link rel="modulepreload" href="/kiki/assets/plugin-vue_export-helper-c27b6911.js"><link rel="modulepreload" href="/kiki/assets/Javasript设计模式之状态模式和代理模式.html-1dba189e.js"><link rel="prefetch" href="/kiki/assets/index.html-d4936d23.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-8cbafd0a.js" as="script"><link rel="prefetch" href="/kiki/assets/intro.html-bd65ab0c.js" as="script"><link rel="prefetch" href="/kiki/assets/slides.html-ec9afaa3.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-f0ea1d36.js" as="script"><link rel="prefetch" href="/kiki/assets/disable.html-f6a2fa9a.js" as="script"><link rel="prefetch" href="/kiki/assets/encrypt.html-61792d75.js" as="script"><link rel="prefetch" href="/kiki/assets/markdown.html-878b19b0.js" as="script"><link rel="prefetch" href="/kiki/assets/page.html-59a96bd0.js" as="script"><link rel="prefetch" href="/kiki/assets/cherry.html-cf67a7fa.js" as="script"><link rel="prefetch" href="/kiki/assets/dragonfruit.html-47179147.js" as="script"><link rel="prefetch" href="/kiki/assets/strawberry.html-f20b3d51.js" as="script"><link rel="prefetch" href="/kiki/assets/tomato.html-0e947ceb.js" as="script"><link rel="prefetch" href="/kiki/assets/Javasript设计模式之工厂模式和装饰器模式.html-b1ef2583.js" as="script"><link rel="prefetch" href="/kiki/assets/js设计模式思想之策略模式思想与发布订阅模式思想.html-0ea636fd.js" as="script"><link rel="prefetch" href="/kiki/assets/Diff.html-946c4c47.js" as="script"><link rel="prefetch" href="/kiki/assets/JSX.html-3256eb54.js" as="script"><link rel="prefetch" href="/kiki/assets/Virtual DOM.html-f28a8825.js" as="script"><link rel="prefetch" href="/kiki/assets/渲染流程.html-f88ce91e.js" as="script"><link rel="prefetch" href="/kiki/assets/TypeScript类型编程.html-b3439c51.js" as="script"><link rel="prefetch" href="/kiki/assets/通俗易懂 - TypeScript(上).html-1bbe10ae.js" as="script"><link rel="prefetch" href="/kiki/assets/通俗易懂-TypeScript(下).html-4fc775d1.js" as="script"><link rel="prefetch" href="/kiki/assets/1.html-086b2806.js" as="script"><link rel="prefetch" href="/kiki/assets/2.html-75fc6cdd.js" as="script"><link rel="prefetch" href="/kiki/assets/3.html-a18a95e0.js" as="script"><link rel="prefetch" href="/kiki/assets/4.html-2b26b827.js" as="script"><link rel="prefetch" href="/kiki/assets/1.html-7eb47686.js" as="script"><link rel="prefetch" href="/kiki/assets/2.html-fee5e71c.js" as="script"><link rel="prefetch" href="/kiki/assets/3.html-254979db.js" as="script"><link rel="prefetch" href="/kiki/assets/4.html-3a1bbce8.js" as="script"><link rel="prefetch" href="/kiki/assets/404.html-58f0f038.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-db1269f1.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-05fb7b8d.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-623e0b00.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b0236b25.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-be107f52.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-093d3e79.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-762cc6b2.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-717a34f7.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-e8235d64.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-6a3c86e0.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-c4003552.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-504f474e.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-6d9128fc.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-ce609982.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-4fff84a5.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-7d83188f.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-36ac8a24.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-3c4965fe.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-7c1fb66d.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-76c4749b.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-2063d815.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-99cba864.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-ac0e3cd3.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-04daedaf.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-03fa465c.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-23b26d43.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-938b42c4.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b0471e92.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-bc606011.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-89abcd94.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-643a0bbf.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-e6c5229c.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-db10c9db.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-502d5cf4.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-48c3ba00.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-7a292f38.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b1289085.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-66d38224.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b4d36542.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-3c1862b1.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-cdf5deb3.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-166d037a.js" as="script"><link rel="prefetch" href="/kiki/assets/intro.html-b1375d3d.js" as="script"><link rel="prefetch" href="/kiki/assets/slides.html-255b9653.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-e91a094b.js" as="script"><link rel="prefetch" href="/kiki/assets/disable.html-6b7eb4ec.js" as="script"><link rel="prefetch" href="/kiki/assets/encrypt.html-0fa06e13.js" as="script"><link rel="prefetch" href="/kiki/assets/markdown.html-1ac584dc.js" as="script"><link rel="prefetch" href="/kiki/assets/page.html-c52ec75d.js" as="script"><link rel="prefetch" href="/kiki/assets/cherry.html-32290764.js" as="script"><link rel="prefetch" href="/kiki/assets/dragonfruit.html-c7d4d50d.js" as="script"><link rel="prefetch" href="/kiki/assets/strawberry.html-be118f02.js" as="script"><link rel="prefetch" href="/kiki/assets/tomato.html-5236ce8f.js" as="script"><link rel="prefetch" href="/kiki/assets/Javasript设计模式之工厂模式和装饰器模式.html-251cff8b.js" as="script"><link rel="prefetch" href="/kiki/assets/js设计模式思想之策略模式思想与发布订阅模式思想.html-6f5c04c9.js" as="script"><link rel="prefetch" href="/kiki/assets/Diff.html-9a082cf6.js" as="script"><link rel="prefetch" href="/kiki/assets/JSX.html-e8a8ccfd.js" as="script"><link rel="prefetch" href="/kiki/assets/Virtual DOM.html-b41751e1.js" as="script"><link rel="prefetch" href="/kiki/assets/渲染流程.html-de06751d.js" as="script"><link rel="prefetch" href="/kiki/assets/TypeScript类型编程.html-91433021.js" as="script"><link rel="prefetch" href="/kiki/assets/通俗易懂 - TypeScript(上).html-6de2b23c.js" as="script"><link rel="prefetch" href="/kiki/assets/通俗易懂-TypeScript(下).html-7a31c744.js" as="script"><link rel="prefetch" href="/kiki/assets/1.html-e02832a3.js" as="script"><link rel="prefetch" href="/kiki/assets/2.html-825aec8a.js" as="script"><link rel="prefetch" href="/kiki/assets/3.html-52d6a42f.js" as="script"><link rel="prefetch" href="/kiki/assets/4.html-7d9ca2fb.js" as="script"><link rel="prefetch" href="/kiki/assets/1.html-e593453d.js" as="script"><link rel="prefetch" href="/kiki/assets/2.html-9bdc6ae0.js" as="script"><link rel="prefetch" href="/kiki/assets/3.html-171b58e8.js" as="script"><link rel="prefetch" href="/kiki/assets/4.html-b03e3f73.js" as="script"><link rel="prefetch" href="/kiki/assets/404.html-dff99c60.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-cd4fb727.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-f6ca0dee.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-3cec2190.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b77b9b8b.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-e2436301.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-f65f31fb.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-5a6ccc24.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-161f4e76.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-3cedb5c5.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-9b4763d2.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-c4b27c86.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-de2b08bb.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-33c2fe1d.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-7b770682.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-589d86a2.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-c630e763.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-180b2da7.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-f599fec5.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-345f9264.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-955fc2c0.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b1e8f32b.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-50d81c89.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-9dba7db3.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-507bf489.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-2710a6ca.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-6734b3f6.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-d12b453f.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-ee18f3b2.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-268d21db.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-693e8a91.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-e6d6a7ae.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-3f0136b4.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-dff4a068.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-65870953.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-a3f04d17.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-b75079db.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-1cf045e8.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-7ef35950.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-55d5f326.js" as="script"><link rel="prefetch" href="/kiki/assets/index.html-5c2bd04f.js" as="script"><link rel="prefetch" href="/kiki/assets/waline-meta-a31b78ed.js" as="script"><link rel="prefetch" href="/kiki/assets/component-16b10b74.js" as="script"><link rel="prefetch" href="/kiki/assets/auto-fa8841cf.js" as="script"><link rel="prefetch" href="/kiki/assets/index-ae8c1e74.js" as="script"><link rel="prefetch" href="/kiki/assets/flowchart-d65a1d8e.js" as="script"><link rel="prefetch" href="/kiki/assets/mermaid.core-7014dd6c.js" as="script"><link rel="prefetch" href="/kiki/assets/highlight.esm-75b11b9d.js" as="script"><link rel="prefetch" href="/kiki/assets/markdown.esm-0191f9da.js" as="script"><link rel="prefetch" href="/kiki/assets/math.esm-70a288c8.js" as="script"><link rel="prefetch" href="/kiki/assets/notes.esm-a106bb2c.js" as="script"><link rel="prefetch" href="/kiki/assets/reveal.esm-ec5549c1.js" as="script"><link rel="prefetch" href="/kiki/assets/search.esm-7e6792e2.js" as="script"><link rel="prefetch" href="/kiki/assets/zoom.esm-b83b91d0.js" as="script"><link rel="prefetch" href="/kiki/assets/VuePlayground-91587eaa.js" as="script"><link rel="prefetch" href="/kiki/assets/photoswipe.esm-2450701e.js" as="script"><link rel="prefetch" href="/kiki/assets/pageview-ae535000.js" as="script">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="vp-skip-link sr-only">跳至主要內容</a><!--]--><div class="theme-container has-toc"><!--[--><header id="navbar" class="vp-navbar"><div class="vp-navbar-start"><button type="button" class="vp-toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><!--[--><!----><!--]--><!--[--><a class="md-link vp-brand" href="/kiki/"><img class="vp-nav-logo" src="/kiki/logo.png" alt="Kiki"><!----><span class="vp-site-name hide-in-pad">Kiki</span></a><!--]--><!--[--><!----><!--]--></div><div class="vp-navbar-center"><!--[--><!----><!--]--><!--[--><nav class="vp-nav-links"><div class="nav-item hide-in-mobile"><a class="md-link nav-link" href="/kiki/"><span class="font-icon icon fa-fw fa-sm fas fa-home" style=""></span>博客主页<!----></a></div><div class="nav-item hide-in-mobile"><a class="md-link nav-link" href="/kiki/posts/"><span class="font-icon icon fa-fw fa-sm fas fa-lightbulb" style=""></span>博文<!----></a></div></nav><!--]--><!--[--><!----><!--]--></div><div class="vp-navbar-end"><!--[--><!----><!--]--><!--[--><div class="nav-item"><div class="dropdown-wrapper i18n-dropdown"><button type="button" class="dropdown-title" aria-label="选择语言"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon i18n-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="i18n icon" style="width:1rem;height:1rem;vertical-align:middle;"><path d="M379.392 460.8 494.08 575.488l-42.496 102.4L307.2 532.48 138.24 701.44l-71.68-72.704L234.496 460.8l-45.056-45.056c-27.136-27.136-51.2-66.56-66.56-108.544h112.64c7.68 14.336 16.896 27.136 26.112 35.84l45.568 46.08 45.056-45.056C382.976 312.32 409.6 247.808 409.6 204.8H0V102.4h256V0h102.4v102.4h256v102.4H512c0 70.144-37.888 161.28-87.04 210.944L378.88 460.8zM576 870.4 512 1024H409.6l256-614.4H768l256 614.4H921.6l-64-153.6H576zM618.496 768h196.608L716.8 532.48 618.496 768z"></path></svg><!--]--><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><a class="md-link nav-link" href="/kiki/en/"><!---->English<!----></a></li><li class="dropdown-item"><a class="md-link nav-link active" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html"><!---->简体中文<!----></a></li></ul></button></div></div><div class="nav-item vp-repo"><a class="vp-repo-link" href="https://github.com/vuepress-theme-hope/vuepress-theme-hope" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="icon github-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="github icon" style="width:1.25rem;height:1.25rem;vertical-align:middle;"><path d="M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z"></path></svg></a></div><div class="nav-item hide-in-mobile"><button type="button" id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="auto icon" style="display:block;"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="dark icon" style="display:none;"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="light icon" style="display:none;"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></svg></button></div><form class="search-box" role="search"><input type="search" placeholder="搜索" autocomplete="off" spellcheck="false" value><!----></form><!--]--><!--[--><!----><!--]--><button type="button" class="vp-toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span><span class="vp-top"></span><span class="vp-middle"></span><span class="vp-bottom"></span></span></button></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow start"></span></div><aside id="sidebar" class="vp-sidebar"><!--[--><!----><!--]--><ul class="vp-sidebar-links"><li><section class="vp-sidebar-group"><button class="vp-sidebar-heading clickable active" type="button"><!----><span class="vp-sidebar-title">Design Patterns</span><span class="vp-arrow down"></span></button><ul class="vp-sidebar-links"><li><!--[--><a class="md-link nav-link vp-sidebar-link vp-sidebar-page" href="/kiki/posts/Design%20patterns/js%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%9D%E6%83%B3%E4%B9%8B%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F%E6%80%9D%E6%83%B3.html"><span class="font-icon icon fa-fw fa-sm fas fa-tag" style=""></span>基础类型<!----></a><ul class="vp-sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a class="md-link nav-link vp-sidebar-link vp-sidebar-page" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.html"><span class="font-icon icon fa-fw fa-sm fas fa-tag" style=""></span>工厂模式和装饰器模式<!----></a><ul class="vp-sidebar-sub-headers"></ul><!--]--></li><li><!--[--><a class="md-link nav-link active vp-sidebar-link vp-sidebar-page active" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html"><span class="font-icon icon fa-fw fa-sm fas fa-tag" style=""></span>状态模式和代理模式<!----></a><ul class="vp-sidebar-sub-headers"><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#前言"><!---->前言<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#例子1"><!---->例子1<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#改造咖啡机的状态切换机制"><!---->改造咖啡机的状态切换机制<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#职责分离"><!---->职责分离<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#开放封闭"><!---->开放封闭<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#进一步改造"><!---->进一步改造<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#例子2"><!---->例子2<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#对比策略模式"><!---->对比策略模式<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#异同处"><!---->异同处：<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#状态模式回顾"><!---->状态模式回顾<!----></a><ul class="vp-sidebar-sub-headers"><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#定义"><!---->定义<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#最终目的"><!---->最终目的<!----></a><ul class="vp-sidebar-sub-headers"></ul></li></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#定义-1"><!---->定义<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#举个栗子-例子"><!---->举个栗子（例子）<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#事件代理"><!---->事件代理<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#虚拟代理"><!---->虚拟代理<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#虚拟代理总结"><!---->虚拟代理总结<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#缓存代理"><!---->缓存代理<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#保护代理"><!---->保护代理<!----></a><ul class="vp-sidebar-sub-headers"><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#前置知识-es6中的proxy"><!---->前置知识： ES6中的Proxy<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#举个例子"><!---->举个例子<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#getting层面的拦截"><!---->getting层面的拦截<!----></a><ul class="vp-sidebar-sub-headers"></ul></li><li class="vp-sidebar-sub-header"><a class="md-link nav-link vp-sidebar-link vp-heading" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html#setting层面的拦截"><!---->setting层面的拦截<!----></a><ul class="vp-sidebar-sub-headers"></ul></li></ul></li></ul><!--]--></li></ul></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-heading clickable" type="button"><!----><span class="vp-sidebar-title">React</span><span class="vp-arrow end"></span></button><!----></section></li><li><section class="vp-sidebar-group"><button class="vp-sidebar-heading clickable" type="button"><!----><span class="vp-sidebar-title">Type Script</span><span class="vp-arrow end"></span></button><!----></section></li></ul><!--[--><!----><!--]--></aside><!--[--><main id="main-content" class="vp-page"><!--[--><!----><!----><nav class="vp-breadcrumb disable"></nav><div class="vp-page-title"><h1><span class="font-icon icon fa-fw fa-sm fas fa-tag" style=""></span>状态模式和代理模式</h1><div class="page-info"><span class="page-author-info" aria-label="作者🖊" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="author icon"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></svg><span><a class="page-author-item" href="https://someqq.github.io/kiki/" target="_blank" rel="noopener noreferrer">Miss.Kiki</a></span><span property="author" content="Miss.Kiki"></span></span><!----><span class="page-date-info" aria-label="写作日期📅" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="calendar icon"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></svg><span><!----></span><meta property="datePublished" content="2022-03-09T00:00:00.000Z"></span><span class="page-pageview-info" aria-label="访问量🔢" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon eye-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="eye icon"><path d="M992 512.096c0-5.76-.992-10.592-1.28-11.136-.192-2.88-1.152-8.064-2.08-10.816-.256-.672-.544-1.376-.832-2.08-.48-1.568-1.024-3.104-1.6-4.32C897.664 290.112 707.104 160 512 160c-195.072 0-385.632 130.016-473.76 322.592-1.056 2.112-1.792 4.096-2.272 5.856a55.512 55.512 0 00-.64 1.6c-1.76 5.088-1.792 8.64-1.632 7.744-.832 3.744-1.568 11.168-1.568 11.168-.224 2.272-.224 4.032.032 6.304 0 0 .736 6.464 1.088 7.808.128 1.824.576 4.512 1.12 6.976h-.032c.448 2.08 1.12 4.096 1.984 6.08.48 1.536.992 2.976 1.472 4.032C126.432 733.856 316.992 864 512 864c195.136 0 385.696-130.048 473.216-321.696 1.376-2.496 2.24-4.832 2.848-6.912.256-.608.48-1.184.672-1.728 1.536-4.48 1.856-8.32 1.728-8.32l-.032.032c.608-3.104 1.568-7.744 1.568-13.28zM512 672c-88.224 0-160-71.776-160-160s71.776-160 160-160 160 71.776 160 160-71.776 160-160 160z"></path></svg><span id="ArtalkPV" class="waline-pageview-count" data-path="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F.html">...</span></span><span class="page-reading-time-info" aria-label="阅读时间⌛" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="timer icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></svg><span>大约 22 分钟</span><meta property="timeRequired" content="PT22M"></span><span class="page-category-info" aria-label="分类🌈" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="category icon"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></svg><!--[--><span class="page-category-item category4 clickable" role="navigation">Design patterns</span><!--]--><meta property="articleSection" content="Design patterns"></span><span class="page-tag-info" aria-label="标签🏷" data-balloon-pos="down"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="tag icon"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></svg><!--[--><span class="page-tag-item tag1 clickable" role="navigation">技术分享</span><!--]--><meta property="keywords" content="技术分享"></span></div><hr></div><div class="toc-place-holder"><aside id="toc"><!--[--><!----><!--]--><div class="toc-header">此页内容<button type="button" class="print-button" title="打印"><svg xmlns="http://www.w3.org/2000/svg" class="icon print-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="print icon"><path d="M819.2 364.8h-44.8V128c0-17.067-14.933-32-32-32H281.6c-17.067 0-32 14.933-32 32v236.8h-44.8C145.067 364.8 96 413.867 96 473.6v192c0 59.733 49.067 108.8 108.8 108.8h44.8V896c0 17.067 14.933 32 32 32h460.8c17.067 0 32-14.933 32-32V774.4h44.8c59.733 0 108.8-49.067 108.8-108.8v-192c0-59.733-49.067-108.8-108.8-108.8zM313.6 160h396.8v204.8H313.6V160zm396.8 704H313.6V620.8h396.8V864zM864 665.6c0 25.6-19.2 44.8-44.8 44.8h-44.8V588.8c0-17.067-14.933-32-32-32H281.6c-17.067 0-32 14.933-32 32v121.6h-44.8c-25.6 0-44.8-19.2-44.8-44.8v-192c0-25.6 19.2-44.8 44.8-44.8h614.4c25.6 0 44.8 19.2 44.8 44.8v192z"></path></svg></button></div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#前言">前言</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#例子1">例子1</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#改造咖啡机的状态切换机制">改造咖啡机的状态切换机制</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#职责分离">职责分离</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#开放封闭">开放封闭</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#进一步改造">进一步改造</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#例子2">例子2</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#对比策略模式">对比策略模式</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#异同处">异同处：</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#状态模式回顾">状态模式回顾</a></li><li><ul class="toc-list"><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#定义">定义</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#最终目的">最终目的</a></li><!----><!--]--></ul></li><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#定义-1">定义</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#举个栗子-例子">举个栗子（例子）</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#事件代理">事件代理</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#虚拟代理">虚拟代理</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#虚拟代理总结">虚拟代理总结</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#缓存代理">缓存代理</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level2" href="/kiki/#保护代理">保护代理</a></li><li><ul class="toc-list"><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#前置知识-es6中的proxy">前置知识： ES6中的Proxy</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#举个例子">举个例子</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#getting层面的拦截">getting层面的拦截</a></li><!----><!--]--><!--[--><li class="toc-item"><a class="md-link toc-link level3" href="/kiki/#setting层面的拦截">setting层面的拦截</a></li><!----><!--]--></ul></li><!--]--></ul><div class="toc-marker" style="top:-1.7rem;"></div></div><!--[--><!----><!--]--></aside></div><!----><div class="theme-hope-content"><h1 id="状态模式和代理模式" tabindex="-1"><a class="header-anchor" href="#状态模式和代理模式" aria-hidden="true">#</a> 状态模式和代理模式</h1><blockquote><p>由许多杯好喝的生椰拿铁想到的。</p><p>马上就要进入夏天啦！要说夏天必备的饮料，冰凉的椰汁绝对算是其中一个。关于**夏天最好的期待，<strong>我脑海中时常会浮现出大海、沙滩、遮阳伞、一大颗</strong>椰子。<strong>特别喜欢椰汁的清爽和椰肉的甜香</strong>，**所以出去也会喜欢买椰子水；在一些海南餐厅或者泰式餐厅，椰奶冻，也是受大家所欢迎的。喜欢创新的咖啡人当然不会错过椰子这个绝佳的食材，这两年椰味咖啡饮料也上了不少咖啡馆的菜单。<strong>所以好喝的生椰拿铁</strong>火了起来，对了厚乳拿铁也很好喝哇。那么突然间就感觉咖啡机好厉害哇，除了可以制作生椰拿铁，还可以制作厚乳拿铁，香草拿铁等等，一台小小的咖啡机就能制作出不同口味的咖啡。其实咖啡机切换不同的状态制作出不同咖啡的过程其实就像是本文要讲的“状态模式”的过程。</p></blockquote><h2 id="前言" tabindex="-1"><a class="header-anchor" href="#前言" aria-hidden="true">#</a> 前言</h2><p>现在的生活，工作和咖啡是不可分割的整体，每个人的口味都不同，一台咖啡机可以吐出很多种类的咖啡。那么在喝咖啡之余想一想，其实“咖啡机也是一个产品。它在不同的选择下有着不同的任务：当我们选择生椰拿铁时，它进入生椰拿铁的制作工序；当我们选择美式咖啡时，它进入美式咖啡的制作工序。一台小小的机器，可以根据用户的口味产出不同口味的咖啡，想想也好厉害啊！那么我们用程序把咖啡机制作咖啡的这个过程实现一下吧。</p><h2 id="例子1" tabindex="-1"><a class="header-anchor" href="#例子1" aria-hidden="true">#</a> 例子1</h2><p>假设一台咖啡机需要制作四种咖啡，这些不同的”选择“间的切换，本质就是状态的切换。</p><p>在这个能做五种咖啡的咖啡机体内，蕴含着五种状态：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>美式咖啡：黑咖啡
+普通拿铁：黑咖啡+牛奶
+生椰拿铁：黑咖啡+牛奶+厚椰乳
+厚乳拿铁：黑咖啡+牛奶+炼乳
+焦糖拿铁：黑咖啡+牛奶+焦糖酱
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>这么一梳理，思路一下子清晰了起来。作为死性不改的 <code>if-else</code>侠，我很快的写出了一套功能完备的代码：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>
+
+// 自助咖啡机
+  class CoffeeMaker {
+    constructor() {
+      // 这里面略过与咖啡状态无关的一些初始化逻辑
+      //初始化状态
+      this.state = &#39;init&#39;;
+    }
+    changeState(state) {
+      //记录当前的状态
+      this.state = state;
+      if (state === &#39;american&#39;) {
+        //如果是美式咖啡
+        // 这里面用console.log代替咖啡制作的业务逻辑
+        console.log(&#39;咖啡机吐黑咖啡&#39;);
+      } else if (state === &#39;ordinary&#39;) {
+        //如果是普通拿铁
+        console.log(&#39;咖啡机吐黑咖啡加点奶&#39;);
+      } else if (state === &#39;raw-coconut&#39;) {
+        //如果是生椰拿铁
+        console.log(&#39;咖啡机吐黑咖啡加点奶再加点厚椰乳&#39;);
+      } else if (state === &#39;thick-milk&#39;) {
+        //如果是厚乳拿铁
+        console.log(&#39;咖啡机吐黑咖啡加点奶再加点炼乳&#39;);
+      }
+    }
+  }
+  // 测试一下
+  const mk = new CoffeeMaker();
+  mk.changeState(&#39;american&#39;); //咖啡机吐黑牛奶
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>不，我必不可能再做‘if-else’侠。我要进行改装！</p><h2 id="改造咖啡机的状态切换机制" tabindex="-1"><a class="header-anchor" href="#改造咖啡机的状态切换机制" aria-hidden="true">#</a> 改造咖啡机的状态切换机制</h2><h2 id="职责分离" tabindex="-1"><a class="header-anchor" href="#职责分离" aria-hidden="true">#</a> 职责分离</h2><p>首先，映入眼帘最大的问题，就是咖啡制作的过程不可复用。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> changeState(state) {
+  //记录当前的状态
+  this.state = state;
+  if (state === &#39;american&#39;) {
+  //如果是美式咖啡
+  // 这里面用console.log代替咖啡制作的业务逻辑
+  console.log(&#39;咖啡机吐黑咖啡&#39;);
+  } else if (state === &#39;ordinary&#39;) {
+  //如果是普通拿铁
+   console.log(&#39;咖啡机吐黑咖啡加点奶&#39;);
+  } else if (state === &#39;raw-coconut&#39;) {
+  //如果是生椰拿铁
+  console.log(&#39;咖啡机吐黑咖啡加点奶再加点厚椰乳&#39;);
+  } else if (state === &#39;thick-milk&#39;) {
+  //如果是厚乳拿铁
+  console.log(&#39;咖啡机吐黑咖啡加点奶再加点炼乳&#39;);
+  }
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><strong>问题发现</strong>：这个<code>changeState</code>函数，它好好管好自己的事（状态切换）不行吗？怎么连做咖啡的过程也写在这里面？这不合理。</p><p>别的不说，就说好喝的生椰拿铁吧，它就是拿铁加点厚椰乳。那我就没必要再把做拿铁的逻辑在香草拿铁里再写一遍。可以直接调用拿铁制作工序对应的函数，然后末尾补个加厚椰乳的动作就行了呢。但是，我们现在所有的制作工序都没有提出来函数化，而是以一种极不优雅的姿势挤在了<code>changeState</code> 里面，谁也别想复用谁。太费劲了，咱们赶紧给它搞一搞职责分离：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>// 进行改装
+  // 职责分离
+  class CoffeeMaker {
+    constructor() {
+      this.state = state;
+    }
+    changeState(state) {
+      //记录当前的状态
+      this.state = state;
+      if (state === &#39;american&#39;) {
+        //如果是美式咖啡
+        // 这里面用console.log代替咖啡制作的业务逻辑
+        this.americanCoffee();
+      } else if (state === &#39;ordinary&#39;) {
+        //如果是普通拿铁
+        this.ordinaryLatte();
+      } else if (state === &#39;raw-coconut&#39;) {
+        //如果是生椰拿铁
+        this.rawCoconutLatte();
+      } else if (state === &#39;thick-milk&#39;) {
+        //如果是厚乳拿铁
+        this.thickMilkLatte();
+      }
+    }
+
+    americanProcess() {
+      console.log(&#39;咖啡机吐黑咖啡&#39;);
+    }
+    ordinaryProcess() {
+      this.americanProcess();
+      console.log(&#39;再加点奶&#39;);
+    }
+    rawCoconutLatte() {
+      this.ordinaryProcess();
+      console.log(&#39;再加点厚椰乳&#39;);
+    }
+    thickMilkLatte() {
+      this.ordinaryProcess();
+      console.log(&#39;再加点炼乳&#39;);
+    };
+  }
+  const mk1 = new CoffeeMaker();
+  mk1.changeState(&#39;ordinaryProcess&#39;); //咖啡机吐黑咖啡 再加点奶  
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="开放封闭" tabindex="-1"><a class="header-anchor" href="#开放封闭" aria-hidden="true">#</a> 开放封闭</h2><p>上面只是解决了复用的问题</p><p>但 &#39;if-else &#39;仍然活得好好的 ，假如我现在想去增加焦糖拿铁这个咖啡品种，就不得不修改 changeState的函数逻辑，这就违反了“开放封闭”的原则。</p><p>同时一个函数里面有这么多的判断，也是十分不合理的。现在要像策略模式一样，想办法把咖啡机状态和咖啡制作工序之间的映射关系体现出来。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>const stateToProcessor = {
+ americanProcess() {
+   console.log(&#39;咖啡机吐黑咖啡&#39;);
+ },
+ ordinaryProcess() {
+   this.americanProcess();
+   console.log(&#39;再加点奶&#39;);
+ },
+ rawCoconutLatte() {
+   this.ordinaryProcess();
+   console.log(&#39;再加点厚椰乳&#39;);
+ },
+ thickMilkLatte() {
+   this.ordinaryProcess();
+    console.log(&#39;再加点炼乳&#39;);
+  },
+}
+class CoffeeMaker {
+ constructor() {
+ /**
+ 这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+ **/
+ // 初始化状态，没有切换任何咖啡模式
+ this.state = &#39;init&#39;;
+}
+//关注咖啡机状态切换函数
+changeState(state) {
+//记录当前状态
+this.state = state;
+// 若当前状态不存在，则返回
+ const func = this.stateToProcessor[state];
+  if (!func) {
+   return
+    }
+  func.bind(this)();
+   }
+ }
+const mk2 = new CoffeeMaker();
+mk2.changeState(&#39;rawCoconutLatte&#39;); // 咖啡机吐黑咖啡 再加点奶 再加点厚椰乳
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上面已经实现了一个js版本的状态模式</p><p>但这里有一点大家需要引起注意： 这种方法仅仅是看上去完美无缺， 其中却暗含一个非常重要的隐患——”stateToProcessor“里的工序函数， 感知不到咖啡机的内部状况。</p><p>所以需要进一步改造</p><p>把状态-行为映射对象作为主体类对应实例的一个属性添加进去就行了。</p><h2 id="进一步改造" tabindex="-1"><a class="header-anchor" href="#进一步改造" aria-hidden="true">#</a> 进一步改造</h2><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>  class CoffeeMaker {
+      constructor() {
+        /**
+    这里略去咖啡机中与咖啡状态切换无关的一些初始化逻辑
+  **/
+        // 初始化状态，没有切换任何咖啡模式
+        this.state = &#39;init&#39;;
+      }
+      stateToProcessor = {
+        americanProcess() {
+          // 尝试在行为函数里拿到咖啡机实例的信息并输出
+          console.log(&#39;咖啡机吐黑咖啡&#39;);
+        },
+        ordinaryProcess() {
+          this.americanProcess();
+          console.log(&#39;再加点奶&#39;);
+        },
+        rawCoconutLatte() {
+          this.ordinaryProcess();
+          console.log(&#39;再加点厚椰乳&#39;);
+        },
+        thickMilkLatte() {
+          this.ordinaryProcess();
+          console.log(&#39;再加点炼乳&#39;);
+        },
+      }
+      // 关注咖啡机状态切换函数
+      changeState(state) {
+        this.state = state;
+        const func = this.stateToProcessor[state];
+        if (!func) {
+          return
+        }
+        func.bind(this)();
+      }
+    }
+
+    const mk = new CoffeeMaker();
+    mk.changeState(&#39;rawCoconutLatte&#39;); //我只吐黑咖啡 再加点奶 再加点厚椰乳
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>巩固一下，再给大家看一个超级玛丽的例子吧</p><h2 id="例子2" tabindex="-1"><a class="header-anchor" href="#例子2" aria-hidden="true">#</a> 例子2</h2><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> //创建超级玛丽状态类
+    var MarryState = function () {
+      //内部状态私有变量
+      var _currentState = {};
+      //动作与状态方法映射
+      states = {
+        jump: function () {
+          //跳跃
+          console.log(&#39;jump&#39;);
+        },
+        move: function () {
+          //移动
+          console.log(&#39;move&#39;);
+        },
+        shoot: function () {
+          //射击
+          console.log(&#39;shoot&#39;);
+        },
+        squat: function () {
+          //蹲下
+          console.log(&#39;squat&#39;);
+        },
+      };
+      //动作控制类
+      var Action = {
+        //改变状态方法
+        changeState: function () {
+          //组合动作通过传递多个参数实现
+          var arg = arguments;
+          //重置内部状态
+          _currentState = {};
+          //如果有动作还添加动作
+          if (arg.length) {
+            //遍历动作
+            for (var i = 0; i &lt; arg.length; i++) {
+              //向内部状态添加动作
+              _currentState[arg[i]] = true;
+            }
+          }
+          //返回动作控制类
+          return this;
+        },
+        //执行动作
+        goes: function () {
+          console.log(&#39;触发一次动作&#39;);
+          //遍历内部保存的动作
+          for (var i in _currentState) {
+            //如果有动作
+            states[i] &amp;&amp; states[i]();
+          }
+          return this;
+        }
+      }
+
+      //返回接口方法change、goes
+      return {
+        change: Action.changeState,
+        goes: Action.goes
+      }
+    };
+    //第一种方法
+    MarryState().change(&#39;jump&#39;, &#39;move&#39;, &#39;shoot&#39;, &#39;squat&#39;) //添加动作
+      .goes() //添加动作
+      .goes() //执行动作
+      .change(&#39;shoot&#39;) //添加射击动作
+      .goes(); //执行动作
+
+    //第二种方法
+    var marry = new MarryState();
+    marry.change().goes().goes().change().goes();
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>所以打印结果为：</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/0b65b70200922fa6e787213415b46dd2.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>现在通过两个例子，大家对状态模式是否更清晰一些了呢，但是大家有没有觉得它和策略模式有异曲同工之妙呢，下面我们来对比一下他们吧！</p><h2 id="对比策略模式" tabindex="-1"><a class="header-anchor" href="#对比策略模式" aria-hidden="true">#</a> 对比策略模式</h2><p>对比策略模式，这种方法更加灵活，可以把咖啡机的状态和咖啡制作工序分离开来，每个状态对应一个工序函数，这样就可以把咖啡机内部状况隐藏起来了。</p><p><strong>状态模式</strong>，更注重由状态的改变，引起的一连串方法的逻辑改变</p><p><strong>策略模式</strong>，更注重调用者如何调用，方法都是固定的。只是根据不同的状态，选择不同的状态的方法而已</p><p><strong>举例</strong>看一下 两种不同的状态</p><p>这里用策略模式来尝试模拟你的技能和兴趣。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>var 绝技 = {
+      思考: function () {
+        console.log(&quot;思路清晰&quot;);
+      },
+      看书: function () {
+        console.log(&#39;一气呵成&#39;);
+      }
+    };
+
+    var 爱好 = {
+      敲代码: function () {
+        console.log(&quot;非常厉害&quot;);
+      },
+      解决bug: function () {
+        console.log(&quot;是个高手&quot;);
+      }
+    };
+
+    var 你 = {
+      展示绝技: function (strategy) {
+        绝技[strategy]();
+      },
+      展示爱好: function (strategy) {
+        爱好[strategy]();
+      }
+    };
+
+    你.展示绝技(&quot;思考&quot;); // 思路清晰
+    你.展示绝技(&quot;看书&quot;); // 一气呵成
+    你.展示爱好(&quot;敲代码&quot;); // 非常厉害
+    你.展示爱好(&quot;解决bug&quot;); // 是个高手
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>上述代码封装了两组算法，每组算法内由外界来决定选择具体某种算法。</p><p>那么对于状态模式，也来写一下自己。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>var 烦 = {
+      思考: function () {
+        console.log(&#39;头脑不灵活，思路不清晰&#39;);
+        当前心情 = 爽;
+      },
+      敲代码: function () {
+        console.log(&#39;容易敲出bug&#39;);
+      }
+    };
+
+    var 爽 = {
+      思考: function () {
+        console.log(&#39;头脑灵活，思路清晰&#39;);
+      },
+      敲代码: function () {
+        console.log(&#39;敲代码几乎不出错&#39;);
+        当前心情 = 烦;
+      }
+    };
+
+    var 当前心情 = 烦;
+
+    var 他 = {
+      思考: function () {
+        当前心情[&quot;思考&quot;]();
+      },
+      敲代码: function () {
+        当前心情[&quot;敲代码&quot;]();
+      }
+    };
+    他.思考(); // 头脑不灵活，思路不清晰
+    他.思考(); // 头脑灵活，思路清晰
+    他.敲代码(); // 敲代码几乎不出错
+    他.敲代码(); // 容易敲出bug
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="异同处" tabindex="-1"><a class="header-anchor" href="#异同处" aria-hidden="true">#</a> 异同处：</h2><p><strong>相同</strong>： 策略模式和状态模式确实是相似的，它们都封装行为、都通过委托来实现行为分发。</p><p><strong>异同</strong>： 但策略模式中的行为函数是”潇洒“的行为函数，它们不依赖调用主体、互相平行、各自为政，井水不犯河水。 而状态模式中的行为函数，首先是和状态主体之间存在着关联，由状态主体把它们串在一起；另一方面，正因为关联着同样的一个（或一类）主体，所以不同状态对应的行为函数可能并不会特别割裂。</p><h2 id="状态模式回顾" tabindex="-1"><a class="header-anchor" href="#状态模式回顾" aria-hidden="true">#</a> 状态模式回顾</h2><h3 id="定义" tabindex="-1"><a class="header-anchor" href="#定义" aria-hidden="true">#</a> 定义</h3><blockquote><p>状态模式(State Pattern) ：允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。另一种理解： 当一个对象的内部状态发生改变时，会导致其行为的改变，这看起来像是改变了对象。</p></blockquote><p>这个定义比较粗糙，可能你读完仍然 get 不到它想让你干啥。这时候，我们就应该把目光转移到它解决的问题上来：</p><blockquote><p>状态模式主要解决的是当控制一个对象状态的条件表达式过于复杂时的情况。把状态的判断逻辑转移到表示不同状态的一系列类中，可以把复杂的判断逻辑简化。</p></blockquote><p>状态模式既是解决程序中臃肿的分支判断语句问题，将每个分支转化为一种状态独立出来，方便每种状态的管理又不至于每次执行时遍历所有的分支。在程序中到底产出哪种行为结果，决定于选择哪种状态，而选择何种状态又是在程序运行中决定的。</p><h3 id="最终目的" tabindex="-1"><a class="header-anchor" href="#最终目的" aria-hidden="true">#</a> 最终目的</h3><p>简化分支判断流程。</p><h1 id="代理模式" tabindex="-1"><a class="header-anchor" href="#代理模式" aria-hidden="true">#</a> 代理模式</h1><h2 id="定义-1" tabindex="-1"><a class="header-anchor" href="#定义-1" aria-hidden="true">#</a> 定义</h2><p>代理模式，式如其名——在某些情况下，出于种种考虑/限制，一个对象<strong>不能直接访问</strong>另一个对象，需要一个<strong>第三者</strong>（代理）牵线搭桥从而间接达到访问目的，这样的模式就是代理模式。</p><h2 id="举个栗子-例子" tabindex="-1"><a class="header-anchor" href="#举个栗子-例子" aria-hidden="true">#</a> 举个栗子（例子）</h2><p>下面这张图片大家都见过吧，当我们自己不用vpn翻墙去访问谷歌浏览器的时候，会出现下面的提示，无法访问此网站。</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/ed9c92c47389d57a0cf1f6a0efa4da53.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>这是为啥呢？这就要从网络请求的整个流程说起了。一般情况下，当我们访问一个 url 的时候，会发生下图的过程：</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/4bf339cb79d2bef0a83ccc4973d11f9a.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>没错，比起常规的访问过程，多出了一个第三方 —— 代理服务器。这个第三方的 ip 地址，不在被禁用的那批 ip 地址之列，我们可以顺利访问到这台服务器。而这台服务器的 DNS 解析过程，没有被施加“咒语”，所以它是可以顺利访问 <a href="http://Google.com" target="_blank" rel="noopener noreferrer">Google.com<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a> 的。代理服务器在请求到 <a href="http://Google.com" target="_blank" rel="noopener noreferrer">Google.com<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a> 后，将响应体转发给你，使你得以间接地访问到目标网址 —— 像这种第三方代替我们访问目标对象的模式，就是代理模式。如下图</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/eb0eeddcaf6367ef1dd1ee5f67a6e1f4.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>本节我们选取业务开发中最常见的四种代理类型：<strong>事件代理</strong>、<strong>虚拟代理</strong>、<strong>缓存代理</strong>和<strong>保护代理</strong>来进行讲解。</p><h2 id="事件代理" tabindex="-1"><a class="header-anchor" href="#事件代理" aria-hidden="true">#</a> 事件代理</h2><p>事件代理，可能是代理模式最常见的一种应用方式，也是一道实打实的高频面试题。它的场景是一个父元素下有多个子元素，像这样：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;ie=edge&quot;&gt;
+  &lt;title&gt;事件代理&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;father&quot;&gt;
+    &lt;a href=&quot;#&quot;&gt;链接1号&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;链接2号&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;链接3号&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;链接4号&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;链接5号&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;链接6号&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>我们现在的需求是，希望鼠标点击每个 a 标签，都可以弹出“我是xxx”这样的提示。比如点击第一个 a 标签，弹出“我是链接1号”这样的提示。这意味着我们至少要安装 6 个监听函数给 6 个不同的的元素(一般我们会用循环，代码如下所示），如果我们的 a 标签进一步增多，那么性能的开销会更大。</p><p>假如不用代理模式，我们将循环安装监听函数</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>const aNodes = document.getElementById(&#39;father&#39;).getElementsByTagName(&#39;a&#39;)
+  
+const aLength = aNodes.length
+
+for(let i=0;i&lt;aLength;i++) {
+    aNodes[i].addEventListener(&#39;click&#39;, function(e) {
+        e.preventDefault()
+        alert(`我是${aNodes[i].innerText}`)                  
+    })
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>打印结果为：</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/581b5caf6e3a23e2a966c2721d4b068f.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><p>考虑到事件本身具有“冒泡”的特性，当我们点击 a 元素时，点击事件会“冒泡”到父元素 div 上，从而被监听到。如此一来，点击事件的监听函数只需要在 div 元素上被绑定一次即可，而不需要在子元素上被绑定 N 次——这种做法就是<strong>事件代理</strong>，它可以很大程度上提高我们代码的性能。</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> // 获取父元素
+ const father = document.getElementById(&#39;father&#39;)
+
+ // 给父元素安装一次监听函数
+ father.addEventListener(&#39;click&#39;, function (e) {
+   // 识别是否是目标子元素
+   if (e.target.tagName === &#39;A&#39;) {
+   // 以下是监听函数的函数体
+     e.preventDefault()
+     alert(`我是${e.target.innerText}`)
+    }
+ })
+ 
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><h2 id="虚拟代理" tabindex="-1"><a class="header-anchor" href="#虚拟代理" aria-hidden="true">#</a> 虚拟代理</h2><p><strong>思想</strong>：先占位、后加载</p><p>此时我们会采取“<strong>先占位、后加载</strong>”的方式来展示图片 —— 在元素露出之前，我们给它一个 div 作占位，当它滚动到可视区域内时，再即时地去加载真实的图片资源，这样做既减轻了性能压力、又保住了用户体验。</p><p>除了图片懒加载，还有一种操作叫<strong>图片预加载</strong>。预加载主要是为了避免网络不好、或者图片太大时，页面长时间给用户留白的尴尬。<strong>常见的操作</strong>是先让这个 img 标签展示一个<strong>占位图，<strong>然后创建一个 <strong>Image 实例</strong>，让这个 Image 实例的 <strong>src</strong>指向</strong>真实的目标图片地址</strong>、观察该 Image 实例的加载情况 —— 当其对应的真实图片加载完毕后，即已经有了该图片的缓存内容，再将 DOM 上的 img 元素的 src 指向真实的目标图片地址。此时我们直接去取了目标图片的缓存，所以展示速度会非常快，从占位图到目标图片的时间差会非常小、小到用户注意不到，这样体验就会非常好了。</p><p>上面的思路，我们可以不假思索地实现如下</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>// 图片懒加载预加载等 
+    class PreLoadImage {
+      // 占位图的url地址
+      static LOADING_URL = &#39;xxxxxx&#39;;
+
+      constructor(imgNode) {
+        // 获取该实例对应的DOM节点
+        this.imgNode = imgNode;
+      }
+      // 该方法用于设置真实的图片地址
+      setSrc(targetUrl) {
+        // img节点初始化时展示的是一个占位图
+        this.imgNode.src =
+          PreLoadImage.LOADING_URL
+        // 创建一个帮我们加载图片的Image实例
+        const image = new Image();
+        // 监听目标图片加载的情况，
+        // 完成时再将DOM上的img节点的src属性设置为目标图片的url
+        image.onload = () =&gt; {
+          this.imgNode.src = targetUrl;
+        }
+        // 设置src属性，
+        // Image实例开始加载图片
+        image.src = targetUrl;
+      }
+    }
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>这个 <code>PreLoadImage</code> 乍一看没问题，但其实违反了我们设计原则中的<strong>单一职责原则</strong>。<code>PreLoadImage</code> 不仅要负责图片的加载，还要负责 DOM 层面的操作（img 节点的初始化和后续的改变）。这样一来，就<strong>出现了两个可能导致这个类发生变化的原因</strong>。</p><p>好的做法是将两个逻辑分离，让 <code>PreLoadImage</code> 专心去做 DOM 层面的事情（真实 DOM 节点的获取、img 节点的链接设置），再找一个对象来专门来帮我们搞加载——这两个对象之间缺个媒婆，这媒婆非代理器不可：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>class PreLoadImage {
+    constructor(imgNode) {
+        // 获取真实的DOM节点
+        this.imgNode = imgNode
+    }
+     
+    // 操作img节点的src属性
+    setSrc(imgUrl) {
+        this.imgNode.src = imgUrl
+    }
+}
+
+class ProxyImage {
+    // 占位图的url地址
+    static LOADING_URL = &#39;xxxxxx&#39;
+
+    constructor(targetImage) {
+        // 目标Image，即PreLoadImage实例
+        this.targetImage = targetImage
+    }
+    
+    // 该方法主要操作虚拟Image，完成加载
+    setSrc(targetUrl) {
+       // 真实img节点初始化时展示的是一个占位图
+        this.targetImage.setSrc(ProxyImage.LOADING_URL)
+        // 创建一个帮我们加载图片的虚拟Image实例
+        const virtualImage = new Image()
+        // 监听目标图片加载的情况，完成时再将DOM上的真实img节点的src属性设置为目标图片的url
+        virtualImage.onload = () =&gt; {
+            this.targetImage.setSrc(targetUrl)
+        }
+        // 设置src属性，虚拟Image实例开始加载图片
+        virtualImage.src = targetUrl
+    }
+}
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p><code>ProxyImage</code> 帮我们调度了预加载相关的工作，我们可以通过 <code>ProxyImage</code> 这个代理，实现对真实 img 节点的间接访问，并得到我们想要的效果。</p><p>在这个实例中，<code>virtualImage</code> 这个对象是一个“幕后英雄”，它始终存在于 JavaScript 世界中、代替真实 DOM 发起了图片加载请求、完成了图片加载工作，却从未在渲染层面抛头露面。因此这种模式被称为“虚拟代理”模式。</p><h2 id="虚拟代理总结" tabindex="-1"><a class="header-anchor" href="#虚拟代理总结" aria-hidden="true">#</a> 虚拟代理总结</h2><p><code>ProxyImage</code> 帮我们调度了预加载相关的工作，我们可以通过 ProxyImage 这个代理， 实现对真实 img 节点的间接访问，并得到我们想要的效果。 在这个实例中，<code>virtualImage</code>这个对象是一个“幕后英雄”， 它始终存在于 JavaScript 世界中、代替真实 DOM 发起了图片加载请求、完成了 图片加载工作，却从未在渲染层面抛头露面。 因此这种模式被称为“虚拟代理”模式。</p><h2 id="缓存代理" tabindex="-1"><a class="header-anchor" href="#缓存代理" aria-hidden="true">#</a> 缓存代理</h2><p>缓存代理比较好理解， 它应用于一些计算量较大的场景里。 在这种场景下， 我们需要“ 用空间换时间”—— 当我们需要用到某个已经计算过的值的时候， 不想再耗时进行二次计算， 而是希望能从内存里去取出现成的计算结果。 这种场景下， 就需要一个代理来帮我们在进行计算的同时， 进行计算结果的缓存了。</p><p>一个比较典型的例子， 是对传入的参数进行求和：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> // addAll方法会对你传入的所有参数做求和操作
+    const addAll = function () {
+      console.log(&#39;进行了一次新计算&#39;)
+      let result = 0
+      const len = arguments.length
+      for (let i = 0; i &lt; len; i++) {
+        result += arguments[i]
+      }
+      return result
+    }
+    // 为求和方法创建代理
+    const proxyAddAll = (function () {
+      // 求和结果的缓存池
+      const resultCache = {}
+      return function () {
+        // 将入参转化为一个唯一的入参字符串
+        const args = Array.prototype.join.call(arguments, &#39;,&#39;)
+
+        // 检查本次入参是否有对应的计算结果
+        if (args in resultCache) {
+          // 如果有，则返回缓存池里现成的结果
+          return resultCache[args]
+        }
+        return resultCache[args] = addAll(...arguments)
+      }
+    })();
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+    console.log(proxyAddAll(1, 2, 3, 4, 5, 6));
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>打印结果为</p><figure><img src="https://pan.udolphin.com/files/image/2022/4/ce3044eb239bf1cdeb0f8b05c5762abc.png" alt="" tabindex="0" loading="lazy"><figcaption></figcaption></figure><h2 id="保护代理" tabindex="-1"><a class="header-anchor" href="#保护代理" aria-hidden="true">#</a> 保护代理</h2><h3 id="前置知识-es6中的proxy" tabindex="-1"><a class="header-anchor" href="#前置知识-es6中的proxy" aria-hidden="true">#</a> 前置知识： ES6中的Proxy</h3><p>在 ES6 中，提供了专门以代理角色出现的代理器 ——<code>Proxy</code>。它的基本用法如下：</p><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>const proxy = new Proxy(obj, handler)
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div></div></div><p>第一个参数是我们的目标对象，也就是接下来提到的<code>&quot;hotPot&quot;</code>。</p><p><code>handler</code> 也是一个对象，用来定义代理的行为，相当于接下来提到的&quot;某外卖平台&quot;。</p><p>当我们通过 <code>proxy</code>去访问目标对象的时候，handler会对我们的行为作一层拦截，我们的每次访问都需要经过<code>handler</code>这个第三方。</p><h3 id="举个例子" tabindex="-1"><a class="header-anchor" href="#举个例子" aria-hidden="true">#</a> <strong>举个例子</strong></h3><p>模拟某外卖平台充值vip会员，在vip身份内购买新的优惠券功能(一次只能选择一种优惠卷购买形式（比如10元4张，15元6张，20元8张...），不能混合购买，或者多购买)</p><h3 id="getting层面的拦截" tabindex="-1"><a class="header-anchor" href="#getting层面的拦截" aria-hidden="true">#</a> getting层面的拦截</h3><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code>  // 吃火锅 火锅基本信息
+     const hotPot = {
+      //名字
+      name: &#39;麻辣香锅&#39;,
+      //是否可以使用优惠券
+      coupon: false,
+      //是否是vip用户
+      isVipUser: false,
+    }
+    
+    // 购买人信息
+    const buyerInfo = {
+      // ...一些必要的信息,
+      isValidated: true, //是否验证过 比如注册登录
+      isVipUser: false,  //是否为vip用户
+
+    };
+    
+    // 某团，某宝 代理 出现了（当前使用的这个平台）
+    const platform = new Proxy(hotPot, {
+    
+      get: function (hotPot, key) {
+        if (!buyerInfo.isValidated) {
+          alert(&#39;您还没有完成验证哦&#39;)
+          return
+        }
+        //...(此处省略其它有的没的各种校验逻辑)
+        // 此处我们认为只有验证过（注册登录）的用户才可以购买VIP
+        if (buyerInfo.isValidated &amp;&amp; !buyerInfo.isVipUser) {
+          alert(&#39;只有VIP才可以使用优惠券哦&#39;)
+          return
+        }
+      }
+    });
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>以上主要是getter层面的拦截，</p><p>其实也可以在setter层面拦截。</p><p>假如已经购买过了，但是充会员时的四张优惠卷已经用完了，现在可以在vip身份里面花钱购买优惠券，继续享受优惠券</p><p>规定不同选择的优惠券不同，</p><p>规定优惠券的数据结构由number和value组成</p><h3 id="setting层面的拦截" tabindex="-1"><a class="header-anchor" href="#setting层面的拦截" aria-hidden="true">#</a> setting层面的拦截</h3><div class="language-text line-numbers-mode" data-ext="text"><pre class="language-text"><code> // 假如已经是vip会员了，但是成为vip会员时的四张优惠卷已经用完了，现在可以在vip身份里面(vip身份有效期为一个月)花钱购买优惠券，继续享受优惠券
+    // 规定不同选择的优惠券不同，
+    // 规定优惠券的数据结构由number和value组成
+    const newCoupon = {
+      number: 4,
+      value: 10,
+    }
+    // 为用户增开newCoupon字段存储购买新的优惠券
+    const hotPotNew = {
+      //名字
+      name: &#39;麻辣香锅&#39;,
+      //是否可以使用优惠券
+      coupon: false,
+      //是否是vip用户
+      isVipUser: false,
+      //新的优惠卷数组（数量(几组)）
+      newCoupons: [],
+      // 拒绝同时购买两次优惠券,同时开通优惠券
+      topTime: 1,
+      // 新购买的优惠券是否使用完,记录vip用户本月最近一次开通的优惠
+      lastNewCoupon: newCoupon,
+    }
+    // 外卖平台推出充值vip成为vip会员 使用完 赠送的四次优惠券后 继续购买新的优惠券的功能
+    const platform = new Proxy(hotPotNew, {
+       get: function (hotPot, key) {
+        if (!buyerInfo.isValidated) {
+          alert(&#39;您还没有完成验证哦&#39;)
+          return
+        }
+        //...(此处省略其它有的没的各种校验逻辑)
+        // 此处我们认为只有验证过（注册登录）的用户才可以购买VIP
+        if (buyerInfo.isValidated &amp;&amp; !buyerInfo.isVipUser) {
+          alert(&#39;只有VIP才可以使用优惠券哦&#39;)
+          return
+        }
+      },
+      set: function (hotPotNew, key, val) {
+        //已经重新购买优惠券，不能同时购买两次（只有新的优惠券使用完才能再次购买）
+        if (key === &#39;newCoupons&#39;) {
+
+          if (hotPotNew.topTime &gt; 1) {
+            alert(&#39;尊敬的vip用户，您已经购买过优惠券了，请使用完再继续购买吧，不要重复购买哟！&#39;)
+            return;
+          }
+        }
+        hotPotNew.lastCoupon = val;
+        hotPotNew.newCoupons = [...hotPotNew.newCoupons, val];
+      }
+    });
+</code></pre><div class="line-numbers" aria-hidden="true"><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div><div class="line-number"></div></div></div><p>代理模式到这里结束啦，因为代理模式比较偏底层，所以还是推荐大家去读一下，阮一峰的《ECMAScript 6 入门教程》里面的proxy，链接地址为：<a href="https://es6.ruanyifeng.com/#docs/proxy" target="_blank" rel="noopener noreferrer">https://es6.ruanyifeng.com/#docs/proxy<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span></a>，这样可以大家去更好的了解代理模式。</p><h1 id="总结" tabindex="-1"><a class="header-anchor" href="#总结" aria-hidden="true">#</a> 总结</h1><p>本文介绍了状态模式与代理模式两种设计模式。</p><p>希望可以让各位读者对这两种设计模式思想有一个更清楚的了解，能够在代码中可应用的地方应用上这两种思想，提高代码的可维护性与可复用性。如有疑问，可以与我交流，大家共同学习与进步。</p><p>感谢您的阅读，我是数字办的祁文杰，期待与您共同成长！！！</p></div><!----><footer class="page-meta"><div class="meta-item edit-link"><a href="https://github.com/vuepress-theme-hope/vuepress-theme-hope/edit/main/src/posts/Design patterns/Javasript设计模式之状态模式和代理模式.md" rel="noopener noreferrer" target="_blank" aria-label="在 GitHub 上编辑此页" class="nav-link label"><!--[--><svg xmlns="http://www.w3.org/2000/svg" class="icon edit-icon" viewBox="0 0 1024 1024" fill="currentColor" aria-label="edit icon"><path d="M430.818 653.65a60.46 60.46 0 0 1-50.96-93.281l71.69-114.012 7.773-10.365L816.038 80.138A60.46 60.46 0 0 1 859.225 62a60.46 60.46 0 0 1 43.186 18.138l43.186 43.186a60.46 60.46 0 0 1 0 86.373L588.879 565.55l-8.637 8.637-117.466 68.234a60.46 60.46 0 0 1-31.958 11.229z"></path><path d="M728.802 962H252.891A190.883 190.883 0 0 1 62.008 771.98V296.934a190.883 190.883 0 0 1 190.883-192.61h267.754a60.46 60.46 0 0 1 0 120.92H252.891a69.962 69.962 0 0 0-69.098 69.099V771.98a69.962 69.962 0 0 0 69.098 69.098h475.911A69.962 69.962 0 0 0 797.9 771.98V503.363a60.46 60.46 0 1 1 120.922 0V771.98A190.883 190.883 0 0 1 728.802 962z"></path></svg><!--]-->在 GitHub 上编辑此页<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="meta-item git-info"><div class="update-time"><span class="label">上次编辑于: </span><!----></div><div class="contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: guoyiqi@uino.com">guoyiqi</span><!--]--><!--]--></div></div></footer><nav class="vp-page-nav"><a class="md-link nav-link prev" href="/kiki/posts/Design%20patterns/Javasript%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F%E5%92%8C%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F.html"><div class="hint"><span class="arrow start"></span>上一页</div><div class="link"><span class="font-icon icon fa-fw fa-sm fas fa-tag" style=""></span>工厂模式和装饰器模式</div></a><!----></nav><div id="comment" class="waline-wrapper" darkmode="false" style="display:block;"><div data-waline provider="Waline"><!--v-if--><div class="wl-comment"><!--v-if--><div class="wl-panel"><div class="wl-header item3"><!--[--><div class="wl-header-item"><label for="wl-nick">昵称</label><input id="wl-nick" class="wl-input wl-nick" name="nick" type="text" value></div><div class="wl-header-item"><label for="wl-mail">邮箱</label><input id="wl-mail" class="wl-input wl-mail" name="mail" type="email" value></div><div class="wl-header-item"><label for="wl-link">网址</label><input id="wl-link" class="wl-input wl-link" name="link" type="text" value></div><!--]--></div><textarea id="wl-edit" class="wl-editor" placeholder="请留言。(填写邮箱可在被回复时收到邮件提醒)"></textarea><div class="wl-preview" style="display:none;"><hr><h4>预览:</h4><div class="wl-content"></div></div><div class="wl-footer"><div class="wl-actions"><a href="https://guides.github.com/features/mastering-markdown/" title="Markdown Guide" aria-label="Markdown is supported" class="wl-action" target="_blank" rel="noopener noreferrer"><svg width="16" height="16" ariaHidden="true"><path d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z" fill="currentColor"></path></svg></a><button type="button" class="wl-action" title="表情" style="display:none;"><svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M563.2 463.3 677 540c1.7 1.2 3.7 1.8 5.8 1.8.7 0 1.4-.1 2-.2 2.7-.5 5.1-2.1 6.6-4.4l25.3-37.8c1.5-2.3 2.1-5.1 1.6-7.8s-2.1-5.1-4.4-6.6l-73.6-49.1 73.6-49.1c2.3-1.5 3.9-3.9 4.4-6.6.5-2.7 0-5.5-1.6-7.8l-25.3-37.8a10.1 10.1 0 0 0-6.6-4.4c-.7-.1-1.3-.2-2-.2-2.1 0-4.1.6-5.8 1.8l-113.8 76.6c-9.2 6.2-14.7 16.4-14.7 27.5.1 11 5.5 21.3 14.7 27.4zM387 348.8h-45.5c-5.7 0-10.4 4.7-10.4 10.4v153.3c0 5.7 4.7 10.4 10.4 10.4H387c5.7 0 10.4-4.7 10.4-10.4V359.2c0-5.7-4.7-10.4-10.4-10.4zm333.8 241.3-41-20a10.3 10.3 0 0 0-8.1-.5c-2.6.9-4.8 2.9-5.9 5.4-30.1 64.9-93.1 109.1-164.4 115.2-5.7.5-9.9 5.5-9.5 11.2l3.9 45.5c.5 5.3 5 9.5 10.3 9.5h.9c94.8-8 178.5-66.5 218.6-152.7 2.4-5 .3-11.2-4.8-13.6zm186-186.1c-11.9-42-30.5-81.4-55.2-117.1-24.1-34.9-53.5-65.6-87.5-91.2-33.9-25.6-71.5-45.5-111.6-59.2-41.2-14-84.1-21.1-127.8-21.1h-1.2c-75.4 0-148.8 21.4-212.5 61.7-63.7 40.3-114.3 97.6-146.5 165.8-32.2 68.1-44.3 143.6-35.1 218.4 9.3 74.8 39.4 145 87.3 203.3.1.2.3.3.4.5l36.2 38.4c1.1 1.2 2.5 2.1 3.9 2.6 73.3 66.7 168.2 103.5 267.5 103.5 73.3 0 145.2-20.3 207.7-58.7 37.3-22.9 70.3-51.5 98.1-85 27.1-32.7 48.7-69.5 64.2-109.1 15.5-39.7 24.4-81.3 26.6-123.8 2.4-43.6-2.5-87-14.5-129zm-60.5 181.1c-8.3 37-22.8 72-43 104-19.7 31.1-44.3 58.6-73.1 81.7-28.8 23.1-61 41-95.7 53.4-35.6 12.7-72.9 19.1-110.9 19.1-82.6 0-161.7-30.6-222.8-86.2l-34.1-35.8c-23.9-29.3-42.4-62.2-55.1-97.7-12.4-34.7-18.8-71-19.2-107.9-.4-36.9 5.4-73.3 17.1-108.2 12-35.8 30-69.2 53.4-99.1 31.7-40.4 71.1-72 117.2-94.1 44.5-21.3 94-32.6 143.4-32.6 49.3 0 97 10.8 141.8 32 34.3 16.3 65.3 38.1 92 64.8 26.1 26 47.5 56 63.6 89.2 16.2 33.2 26.6 68.5 31 105.1 4.6 37.5 2.7 75.3-5.6 112.3z" fill="currentColor"></path></svg></button><button type="button" class="wl-action" title="表情包"><svg width="24" height="24" fill="currentcolor" viewBox="0 0 24 24"><path style="transform: translateY(0.5px)" d="M18.968 10.5H15.968V11.484H17.984V12.984H15.968V15H14.468V9H18.968V10.5V10.5ZM8.984 9C9.26533 9 9.49967 9.09367 9.687 9.281C9.87433 9.46833 9.968 9.70267 9.968 9.984V10.5H6.499V13.5H8.468V12H9.968V14.016C9.968 14.2973 9.87433 14.5317 9.687 14.719C9.49967 14.9063 9.26533 15 8.984 15H5.984C5.70267 15 5.46833 14.9063 5.281 14.719C5.09367 14.5317 5 14.2973 5 14.016V9.985C5 9.70367 5.09367 9.46933 5.281 9.282C5.46833 9.09467 5.70267 9.001 5.984 9.001H8.984V9ZM11.468 9H12.968V15H11.468V9V9Z"></path><path d="M18.5 3H5.75C3.6875 3 2 4.6875 2 6.75V18C2 20.0625 3.6875 21.75 5.75 21.75H18.5C20.5625 21.75 22.25 20.0625 22.25 18V6.75C22.25 4.6875 20.5625 3 18.5 3ZM20.75 18C20.75 19.2375 19.7375 20.25 18.5 20.25H5.75C4.5125 20.25 3.5 19.2375 3.5 18V6.75C3.5 5.5125 4.5125 4.5 5.75 4.5H18.5C19.7375 4.5 20.75 5.5125 20.75 6.75V18Z"></path></svg></button><input id="wl-image-upload" class="upload" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp,.gif"><label for="wl-image-upload" class="wl-action" title="上传图片"><svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M784 112H240c-88 0-160 72-160 160v480c0 88 72 160 160 160h544c88 0 160-72 160-160V272c0-88-72-160-160-160zm96 640c0 52.8-43.2 96-96 96H240c-52.8 0-96-43.2-96-96V272c0-52.8 43.2-96 96-96h544c52.8 0 96 43.2 96 96v480z" fill="currentColor"></path><path d="M352 480c52.8 0 96-43.2 96-96s-43.2-96-96-96-96 43.2-96 96 43.2 96 96 96zm0-128c17.6 0 32 14.4 32 32s-14.4 32-32 32-32-14.4-32-32 14.4-32 32-32zm462.4 379.2-3.2-3.2-177.6-177.6c-25.6-25.6-65.6-25.6-91.2 0l-80 80-36.8-36.8c-25.6-25.6-65.6-25.6-91.2 0L200 728c-4.8 6.4-8 14.4-8 24 0 17.6 14.4 32 32 32 9.6 0 16-3.2 22.4-9.6L380.8 640l134.4 134.4c6.4 6.4 14.4 9.6 24 9.6 17.6 0 32-14.4 32-32 0-9.6-4.8-17.6-9.6-24l-52.8-52.8 80-80L769.6 776c6.4 4.8 12.8 8 20.8 8 17.6 0 32-14.4 32-32 0-8-3.2-16-8-20.8z" fill="currentColor"></path></svg></label><button type="button" class="wl-action" title="预览"><svg viewBox="0 0 1024 1024" width="24" height="24"><path d="M710.816 654.301c70.323-96.639 61.084-230.578-23.705-314.843-46.098-46.098-107.183-71.109-172.28-71.109-65.008 0-126.092 25.444-172.28 71.109-45.227 46.098-70.756 107.183-70.756 172.106 0 64.923 25.444 126.007 71.194 172.106 46.099 46.098 107.184 71.109 172.28 71.109 51.414 0 100.648-16.212 142.824-47.404l126.53 126.006c7.058 7.06 16.297 10.979 26.406 10.979 10.105 0 19.343-3.919 26.402-10.979 14.467-14.467 14.467-38.172 0-52.723L710.816 654.301zm-315.107-23.265c-65.88-65.88-65.88-172.54 0-238.42 32.069-32.07 74.245-49.149 119.471-49.149 45.227 0 87.407 17.603 119.472 49.149 65.88 65.879 65.88 172.539 0 238.42-63.612 63.178-175.242 63.178-238.943 0zm0 0" fill="currentColor"></path><path d="M703.319 121.603H321.03c-109.8 0-199.469 89.146-199.469 199.38v382.034c0 109.796 89.236 199.38 199.469 199.38h207.397c20.653 0 37.384-16.645 37.384-37.299 0-20.649-16.731-37.296-37.384-37.296H321.03c-68.582 0-124.352-55.77-124.352-124.267V321.421c0-68.496 55.77-124.267 124.352-124.267h382.289c68.582 0 124.352 55.771 124.352 124.267V524.72c0 20.654 16.736 37.299 37.385 37.299 20.654 0 37.384-16.645 37.384-37.299V320.549c-.085-109.8-89.321-198.946-199.121-198.946zm0 0" fill="currentColor"></path></svg></button></div><div class="wl-info"><div class="wl-captcha-container"></div><div class="wl-text-number">0 <!--v-if-->  字</div><button type="button" class="wl-btn">登录</button><button type="submit" class="primary wl-btn" title="Cmd|Ctrl + Enter"><!--[-->提交<!--]--></button></div><div class="wl-gif-popup"><input type="text" placeholder="搜索表情包"><!--v-if--><div class="wl-loading"><svg width="30" height="30" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokeWidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform></circle></svg></div></div><div class="wl-emoji-popup"><!--[--><!--]--><!--v-if--></div></div></div><!--v-if--></div><div class="wl-meta-head"><div class="wl-count"><!--v-if--> 评论</div><ul class="wl-sort"><!--[--><li class="active">按正序</li><li class="">按倒序</li><li class="">按热度</li><!--]--></ul></div><div class="wl-cards"><!--[--><!--]--></div><!--[--><div class="wl-loading"><svg width="30" height="30" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokeWidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1"></animateTransform></circle></svg></div><!--]--><div class="wl-power"> Powered by <a href="https://github.com/walinejs/waline" target="_blank" rel="noopener noreferrer"> Waline </a> v2.15.5</div></div></div><!----><!--]--></main><!--]--><footer class="vp-footer-wrapper"><div class="vp-footer">默认页脚</div><div class="vp-copyright">Copyright © 2023 Miss.Kiki</div></footer></div><!--]--><!----><!--]--></div>
+    <script type="module" src="/kiki/assets/app-2d139388.js" defer></script>
+  </body>
+</html>
