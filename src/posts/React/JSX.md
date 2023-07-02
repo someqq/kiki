@@ -1,3 +1,4 @@
+# JSX
 ## What
 按照 React 官方的解释，**JSX 是一个 JavaScript 的语法扩展，或者说是一个类似于 XML 的 ECMAScript 语法扩展**。它本身没有太多的语法定义，也不期望引入更多的标准。
 JSX 主要用于声明 React 元素，但 React 中并不强制使用 JSX。即使使用了 JSX，也会在构建过程中，通过 Babel 插件编译为 React.createElement。所以 JSX 更像是 React.createElement 的一种语法糖。

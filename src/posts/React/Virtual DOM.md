@@ -1,3 +1,4 @@
+# Virtual DOM
 ## What
 虚拟 DOM 的**工作原理**是通过 JS 对象模拟 DOM 的节点
 ## Why

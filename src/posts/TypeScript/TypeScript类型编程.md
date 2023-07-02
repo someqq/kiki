@@ -1,5 +1,12 @@
 ---
-date: 2022-01-01
+date: 2022-03-31
+title: TypeScript-类型编程
+icon: tag
+order: 2
+category:
+  - TypeScript
+tag:
+  - 技术分享
 ---
 
 # 类型编程

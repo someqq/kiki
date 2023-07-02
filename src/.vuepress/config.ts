@@ -13,7 +13,7 @@ export default defineUserConfig({
     },
     "/": {
       lang: "zh-CN",
-      title: "Blog",
+      title: "Kiki",
       description: "kiki的博客",
     },
   },

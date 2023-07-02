@@ -1,4 +1,14 @@
-# 状态模式
+---
+date: 2022-03-09
+title: 状态模式和代理模式
+icon: tag
+order: 2
+category:
+  - Design patterns
+tag:
+  - 技术分享
+---
+# 状态模式和代理模式
 
 > 由许多杯好喝的生椰拿铁想到的。
 >

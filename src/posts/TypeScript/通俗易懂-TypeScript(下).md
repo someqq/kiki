@@ -1,4 +1,15 @@
-上期张敏同学带我们走了一遍TypeScript的基础类型、类、函数以及接口，相信大家对TypeScript已经有了相对完整的概念，那么本期我们一起来看看TypeScript的一些高级类型以及泛型，文章不会详尽列举所有的高级类型，只是列举一些常用类型，希望能激发同学们多多去探索TypeScript的更多玩法。文章中我们也会通过对比Interface与type的异同，来详细了解这两者之间的区别，最后我会推荐一些关于TypeScript的工具,如果大家有更多好用工具，也欢迎留言到评论区，一起交流学习哦。
+---
+date: 2021-11-08
+title: TypeScript-高级类型
+icon: tag
+order: 2
+category:
+  - TypeScript
+tag:
+  - 技术分享
+---
+
+相信大家对TypeScript已经有了相对完整的概念，那么本期我们一起来看看TypeScript的一些高级类型以及泛型，文章不会详尽列举所有的高级类型，只是列举一些常用类型，希望能激发同学们多多去探索TypeScript的更多玩法。文章中我们也会通过对比Interface与type的异同，来详细了解这两者之间的区别，最后我会推荐一些关于TypeScript的工具,如果大家有更多好用工具，也欢迎留言到评论区，一起交流学习哦。
 下面我们开始吧，以下例子都可以粘贴到[TypeScript演练厂](https://www.typescriptlang.org/zh/play)，实时看到输出结果。
 
 
@@ -654,4 +665,3 @@ compilerOptions 每个选项的详细说明摘录如下，我们可以大致看�
 
 
 好啦，以上就是本期TypeScript的全部内容了，如有错误之处，欢迎指正😉
-感谢您的阅读，我是数字办的郭亦奇，期待与您共同成长！！！

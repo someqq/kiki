@@ -24,13 +24,13 @@ export default hopeTheme({
   docsDir: "src",
 
   blog: {
-    medias: {
-      Baidu: "https://example.com",
-      BiliBili: "https://example.com",
-      Bitbucket: "https://example.com",
-      Dingding: "https://example.com",
+    // medias: {
+    //   Baidu: "https://example.com",
+    //   BiliBili: "https://example.com",
+    //   Bitbucket: "https://example.com",
+    //   Dingding: "https://example.com",
 
-    },
+    // },
   },
 
   locales: {
@@ -70,7 +70,7 @@ export default hopeTheme({
       displayFooter: true,
 
       blog: {
-        description: "一个前端开发者",
+        description: "一个努力赚钱买三万块电脑的小前端",
         intro: "/intro.html",
       },
 
